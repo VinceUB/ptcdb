@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.HashSet;
 
 @Getter @Setter
-public class Card {
+class Card {
     private String name = "Unknown";
     private String description = "Unknown";
     private String generation = "Unknown";
@@ -19,6 +19,16 @@ public class Card {
 
     public void addPossibleOwner(String owner){
         possibleOwners.add(owner.toLowerCase());
+    }
+
+    public void set(CardProperty property, String value){
+        switch (property){
+            case DESCRIPTION -> setDescription(value);
+            case GEN -> setGeneration(value);
+            case OWNER -> setOwnersText(value); //Does NOT add anything to the owners list
+            case HISTORY -> setHistory(value);
+            case IMAGE -> setImage(value);
+        }
     }
 
     String toHtml(){
@@ -41,7 +51,7 @@ public class Card {
                 image.equals("No data")?
                         image :
                         String.format(
-                                "<img src=\"images/%s\", width=\"100%%\", alt=\"%s\">",
+                                "<img src=\"images/%s\" width=\"100%%\" alt=\"%s\">",
                                 image, description)
                 );
     }

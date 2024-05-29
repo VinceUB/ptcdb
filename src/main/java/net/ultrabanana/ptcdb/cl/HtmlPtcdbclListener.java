@@ -1,13 +1,10 @@
 package net.ultrabanana.ptcdb.cl;
 
 import lombok.Setter;
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.io.PrintWriter;
 
-public class HtmlPtcdbclListener implements PTCDBCLListener {
+public class HtmlPtcdbclListener extends PTCDBCLBaseListener {
     private final PrintWriter writer;
 
     @Setter private int outerIndent = 0;
@@ -76,9 +73,6 @@ public class HtmlPtcdbclListener implements PTCDBCLListener {
     }
 
     @Override
-    public void enterTitleCardName(PTCDBCLParser.TitleCardNameContext ctx) {}
-
-    @Override
     public void exitTitleCardName(PTCDBCLParser.TitleCardNameContext ctx) {
         currentCard.setName(ctx.CARD_NAME().getText());
     }
@@ -111,59 +105,18 @@ public class HtmlPtcdbclListener implements PTCDBCLListener {
 
     @Override
     public void exitValue(PTCDBCLParser.ValueContext ctx) {
-        var v = currentValue.toString();
-        switch(currentKey){
-            case DESCRIPTION -> currentCard.setDescription(v);
-            case GEN -> currentCard.setGeneration(v);
-            case OWNER -> currentCard.setOwnersText(v);
-            case HISTORY -> currentCard.setHistory(v);
-            case IMAGE -> currentCard.setImage(v);
-        }
+        currentCard.set(currentKey, currentValue.toString());
         currentValue = null;
     }
-
-    @Override
-    public void enterMultiLine(PTCDBCLParser.MultiLineContext ctx) {}
-
-    @Override
-    public void exitMultiLine(PTCDBCLParser.MultiLineContext ctx) {}
-
-    @Override
-    public void enterSameLine(PTCDBCLParser.SameLineContext ctx) {}
-
-    @Override
-    public void exitSameLine(PTCDBCLParser.SameLineContext ctx) {}
-
-    @Override
-    public void enterMultiLineContent(PTCDBCLParser.MultiLineContentContext ctx) {}
-
-    @Override
-    public void exitMultiLineContent(PTCDBCLParser.MultiLineContentContext ctx) {}
-
-    @Override
-    public void enterStrWhitespace(PTCDBCLParser.StrWhitespaceContext ctx) {}
 
     @Override
     public void exitStrWhitespace(PTCDBCLParser.StrWhitespaceContext ctx) {
         currentValue.append(ctx.WHITESPACE().getText());
     }
-
-    @Override
-    public void enterStrNewline(PTCDBCLParser.StrNewlineContext ctx) {}
-
     @Override
     public void exitStrNewline(PTCDBCLParser.StrNewlineContext ctx) {
         currentValue.append("<br/>");
     }
-
-    @Override
-    public void enterWord(PTCDBCLParser.WordContext ctx) {}
-
-    @Override
-    public void exitWord(PTCDBCLParser.WordContext ctx) {}
-
-    @Override
-    public void enterName(PTCDBCLParser.NameContext ctx) {}
 
     @Override
     public void exitName(PTCDBCLParser.NameContext ctx) {
@@ -182,9 +135,6 @@ public class HtmlPtcdbclListener implements PTCDBCLListener {
     }
 
     @Override
-    public void enterCardName(PTCDBCLParser.CardNameContext ctx) {}
-
-    @Override
     public void exitCardName(PTCDBCLParser.CardNameContext ctx) {
         var cardName = ctx.CARD_NAME().getText();
         currentValue
@@ -194,36 +144,8 @@ public class HtmlPtcdbclListener implements PTCDBCLListener {
     }
 
     @Override
-    public void enterNormalWord(PTCDBCLParser.NormalWordContext ctx) {}
-
-    @Override
     public void exitNormalWord(PTCDBCLParser.NormalWordContext ctx) {
         var word = ctx.getText();
         currentValue.append(word);
     }
-
-    @Override
-    public void visitTerminal(TerminalNode node) {
-
-    }
-
-    @Override
-    public void visitErrorNode(ErrorNode node) {
-
-    }
-
-    @Override
-    public void enterEveryRule(ParserRuleContext ctx) {
-
-    }
-
-    @Override
-    public void exitEveryRule(ParserRuleContext ctx) {
-
-    }
-}
-
-enum CardProperty {
-    DESCRIPTION, GEN,
-    OWNER, HISTORY, IMAGE
 }
