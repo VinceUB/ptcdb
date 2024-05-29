@@ -1,29 +1,37 @@
 grammar PTCDBCL;
 
-config: (entry NEWLINE*)* EOF ;
+config: (NEWLINE* entry NEWLINE*)* EOF ;
 
 entry: title kvPair*;
 
-title: cardName TITLE_UNDERSCORE;
+title: titleCardName TITLE_UNDERSCORE;
+
+titleCardName: CARD_NAME;
 
 kvPair: KEY value? ;
 
 value : multiLine | sameLine ;
 
 multiLine: MULTILINE_START multiLineContent MULTILINE_END;
-sameLine: (WHITESPACE* word WHITESPACE*)+ ;
+sameLine: (strWhitespace* word strWhitespace*)+ ;
 
-multiLineContent: (sameLine NEWLINE?)* ;
+multiLineContent: (sameLine strNewline?)* ;
 
-word: name | OTHER_WORD | cardName ;
+strWhitespace: WHITESPACE;
+strNewline: NEWLINE;
+
+word:  name | normalWord | cardName ;
 
 name: OWNER ;
 cardName: CARD_NAME ;
+normalWord: OTHER | OTHER* OTHER_WORD OTHER*;
 
 fragment WS: '\t' | ' ';
 fragment NL: ( ('\r'? '\n') | '\r' );
-fragment ALPHA: [A-Za-z];
-fragment W: ~[\n\r\t ]+;
+fragment ALPHA: [A-Za-zÆØÅæøåÄÖÜäöü];
+//fragment W: ~[\n\r\t ]+;
+
+COMMENT: '<!--' .*? '-->' -> skip;
 
 KEY: NL ALPHA+ WS* ':' WS* ;
 
@@ -41,10 +49,12 @@ OWNER:
 	'Amalie'    |
 	'Topholt'   ;
 
-CARD_NAME: [A-Z] W WS 'Martin' ;
+CARD_NAME: [A-Z] ALPHA+ WS 'Martin' ;
 
 //SAMELINE: ~[\n\r]+ ;
-OTHER_WORD: W ;
+OTHER_WORD: ALPHA+ ;
 
 NEWLINE: NL;
 WHITESPACE: WS;
+
+OTHER: .;

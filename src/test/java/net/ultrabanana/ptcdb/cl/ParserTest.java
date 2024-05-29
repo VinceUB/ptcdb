@@ -86,6 +86,6 @@ public class ParserTest {
                 new TestToken("", PTCDBCLLexer.TITLE_UNDERSCORE)
         }));
 
-        assertEquals(title.title().cardName().getText(), "Tester Martin");
+        assertEquals(title.title().titleCardName().getText(), "Tester Martin");
     }
 }
