@@ -1,0 +1,23 @@
+td img {
+	max-width: 30em;
+}
+
+.patrick {
+	background-color: lightgreen;
+}
+.vincent {
+	background-color: lightblue;
+}
+.sebastian {
+	background-color: lightyellow;
+}
+.sille {
+	background-color: aqua;
+}
+.amalie {
+	background-color: pink;
+}
+.phutsorn {
+	background-color: maroon;
+	color: white;
+}

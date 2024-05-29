@@ -2,3 +2,8 @@ target/
 
 .idea/
 .vscode/
+
+src/main/webapp/images/*
+src/main/webapp/WEB-INF/*.pdc
+src/main/webapp/WEB-INF/*.ptcdbcl
+src/main/webapp/WEB-INF/*.ptcdbcf
