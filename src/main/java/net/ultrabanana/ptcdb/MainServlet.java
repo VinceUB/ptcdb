@@ -41,6 +41,16 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //String bannerFullUrl = req.getScheme() + "://" + req.getLocalName() + ":" + req.getServerPort() + req.getContextPath() + "/images/banner.jpeg";
+
+        //HMU if you have a better way to do this
+        String bannerFullUrl =
+            (
+                req.getRequestURL().toString().endsWith("/index.html")
+                ? req.getRequestURL().substring(0, req.getRequestURL().length()-"/index.html".length())
+                : req.getRequestURL().substring(0, req.getRequestURL().length()-"/".length())
+            ) + "/images/banner.jpeg";
+
         resp.getWriter().print("""
                 <!DOCTYPE html>
                 <html>
@@ -61,7 +71,8 @@ public class MainServlet extends HttpServlet {
     
                         <link rel="stylesheet" href="style.css">
                     </head>
-                """.formatted(req.getRequestURL().append("/images/banner.jpeg")));
+                """.formatted(bannerFullUrl));
+        System.out.println(getServletContext().getResource("/images/banner.jpeg").toString());
 
         resp.getWriter().write(
                 """
