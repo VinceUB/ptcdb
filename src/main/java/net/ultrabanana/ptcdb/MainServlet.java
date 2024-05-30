@@ -72,7 +72,7 @@ public class MainServlet extends HttpServlet {
                         <link rel="stylesheet" href="style.css">
                     </head>
                 """.formatted(bannerFullUrl));
-        System.out.println(getServletContext().getResource("/images/banner.jpeg").toString());
+        //System.out.println(getServletContext().getResource("/images/banner.jpeg").toString());
 
         resp.getWriter().write(
                 """
@@ -82,6 +82,7 @@ public class MainServlet extends HttpServlet {
                         <p>An exploration of the various PTC's out there</p>
                     </header>
                 """.indent(4));
+        System.out.println("hi".indent(4));
 
         for (File config : configFiles){
             resp.getWriter().write(
@@ -106,5 +107,7 @@ public class MainServlet extends HttpServlet {
                     </body>
                 </html>
                 """);
+
+        resp.getWriter().flush();
     }
 }

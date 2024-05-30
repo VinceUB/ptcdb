@@ -12,8 +12,9 @@
 
 	<packaging>war</packaging>
 	<properties>
-		<maven.compiler.target>21</maven.compiler.target>
-		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.release>17</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
@@ -84,6 +85,7 @@
 				<version>3.2.2</version>
 			</plugin>
 		</plugins>
+		<finalName>${project.name}</finalName>
 	</build>
 
 </project>
